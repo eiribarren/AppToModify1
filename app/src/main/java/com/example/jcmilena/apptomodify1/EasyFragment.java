@@ -19,10 +19,9 @@ public class EasyFragment extends Fragment {
     private static final String ARG_PARAM2 = "color";
 
     // TODO: Rename and change types of parameters
-    private String mParam1 ="1";
+    private String mParam1 = "1";
     private int mParam2 = R.color.colorBlanco;
-
-
+    EasyFragmentInterface mListener;
 
     public EasyFragment() {
         // Required empty public constructor
@@ -30,10 +29,11 @@ public class EasyFragment extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static EasyFragment newInstance(String param1) {
+    public static EasyFragment newInstance(String param1, int param2) {
         EasyFragment fragment = new EasyFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
+        args.putInt(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,6 +43,7 @@ public class EasyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getInt(ARG_PARAM2);
         }
     }
 
@@ -60,7 +61,7 @@ public class EasyFragment extends Fragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Acció a fer
+                mListener.pulsado(mParam1);
                 }
         });
 
@@ -71,9 +72,18 @@ public class EasyFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        if ( context instanceof EasyFragmentInterface ) {
+            mListener = (EasyFragmentInterface) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement EasyFragmentInterface");
+        }
     }
 
+    public interface EasyFragmentInterface {
 
+        abstract void pulsado(String numero);
+
+    }
 
 }
