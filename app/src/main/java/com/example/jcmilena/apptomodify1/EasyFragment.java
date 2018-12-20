@@ -82,7 +82,7 @@ public class EasyFragment extends Fragment {
 
     public interface EasyFragmentInterface {
 
-        abstract void pulsado(String numero);
+        void pulsado(String numero);
 
     }
 
